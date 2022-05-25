@@ -1,10 +1,5 @@
 import 'dart:convert';
-/// id : 1
-/// name : "zia"
-/// email : "zee13@gmail.com"
-/// number : ""
-/// address : ""
-/// user : "user login successfully"
+
 
 LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
 String loginModelToJson(LoginModel data) => json.encode(data.toJson());

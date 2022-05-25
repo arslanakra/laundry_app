@@ -38,14 +38,12 @@ class _MapScreenState extends State<MapScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately.
         return;
       }
     }
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       currentPosition = position;
-      print(currentPosition);
     });
 
   }

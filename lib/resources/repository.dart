@@ -1,7 +1,12 @@
+import 'package:laundry_app_ui/api/api_provider.dart';
+
 import '../api/auth_controller.dart';
 
 
 class  Repository{
-  final apiProvider = AuthController();
-  Future<dynamic> loginRequest(String phone,String num) => apiProvider.loginRequest(phone, num);
+
+  final auth = AuthController();
+  final apiProvider = ApiProvider();
+  Future<dynamic> loginRequest(String phone,String num) => auth.loginRequest(phone, num);
+  Future<dynamic> getCat() => apiProvider.getCategories();
 }

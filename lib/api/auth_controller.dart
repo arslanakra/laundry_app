@@ -27,9 +27,11 @@ class AuthController extends GetxController{
   Future loginRequest(String email,String pass) async {
 
     var body = {'email': email,'password':pass};
+
     final response = await http
         .post(Uri.parse(ApiPaths.baseURL + ApiPaths.login), body: body);
-    print(response.statusCode);
+
+
     if(response.statusCode == 201) {
       print(response.body);
       Get.snackbar('Success', 'User Logged In Successfully', snackPosition: SnackPosition.BOTTOM);

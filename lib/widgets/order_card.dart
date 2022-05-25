@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_app_ui/models/order.dart';
+import 'package:laundry_app_ui/ui/single_order.dart';
 import 'package:laundry_app_ui/utils/helper.dart';
 
 class OrderCard extends StatelessWidget {
@@ -16,7 +18,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        nextScreen(context, "/single-order");
+        // Get.to(SingleOrder());
       },
       child: Container(
         decoration: BoxDecoration(

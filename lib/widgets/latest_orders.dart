@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:laundry_app_ui/models/order.dart';
+import 'package:laundry_app_ui/ui/single_order.dart';
 import 'package:laundry_app_ui/utils/constants.dart';
 import 'package:laundry_app_ui/widgets/order_card.dart';
 
@@ -65,8 +67,13 @@ class LatestOrders extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               // Lets pass the order to a new widget and render it there
-              return OrderCard(
-                order: orders[index],
+              return InkWell(
+                onTap: (){
+                  Get.to(SingleOrder());
+                },
+                child: OrderCard(
+                  order: orders[index],
+                ),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
