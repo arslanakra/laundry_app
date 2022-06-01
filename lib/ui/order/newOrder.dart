@@ -11,6 +11,7 @@ import 'package:laundry_app_ui/resources/singletonPattern/categoriesBloc.dart';
 import 'package:laundry_app_ui/widgets/card_widget.dart';
 
 import '../../models/LoginModel.dart';
+import '../../resources/singletonPattern/GetOrderBloc.dart';
 import '../../resources/singletonPattern/loginBloc.dart';
 import '../../utils/constants.dart';
 import '../../widgets/app_button.dart';
@@ -251,7 +252,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                                           orderController.orderBody['order_items'] = orderController.categoryList;
                                           print(jsonEncode(orderController.orderBody));
                                           await orderController.sendOrder(jsonEncode(orderController.orderBody));
+                                          await getOrderBloc.getOrder(userModel.id!);
                                           Navigator.pop(context);
+                                          Get.snackbar('Success', 'Order Placed');
                                         }
 
 

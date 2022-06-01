@@ -9,4 +9,5 @@ class  Repository{
   final apiProvider = ApiProvider();
   Future<dynamic> loginRequest(String phone,String num) => auth.loginRequest(phone, num);
   Future<dynamic> getCat() => apiProvider.getCategories();
+  Future<dynamic> getOrder(int id) => apiProvider.getOrders(id);
 }

@@ -9,6 +9,7 @@ import 'package:laundry_app_ui/widgets/app_button.dart';
 import 'package:laundry_app_ui/widgets/input_widget.dart';
 
 import '../models/LoginModel.dart';
+import '../resources/singletonPattern/GetOrderBloc.dart';
 import '../resources/singletonPattern/loginBloc.dart';
 
 class Login extends StatefulWidget {
@@ -156,13 +157,15 @@ class _LoginState extends State<Login> {
                                             size: 50,
                                           ));
                                         });
+
                                     await userLoginBloc.getUserLogin(
                                         authController.emailController.text,
                                         authController.passController.text);
-                                    Navigator.of(context).pop();
-
                                     LoginModel loginModel = userLoginBloc.userLoginModel;
+                                    await getOrderBloc.getOrder(loginModel.id!);
+                                    Navigator.of(context).pop();
                                     if (loginModel.user!.contains('user')) {
+                                      Get.snackbar('Success', 'User Logged In Successfully', snackPosition: SnackPosition.BOTTOM);
                                       Get.offAll(() => NavigationScreen(),
                                           transition: Transition.leftToRight);
                                     }

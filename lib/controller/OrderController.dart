@@ -65,7 +65,7 @@ class OrderController extends GetxController{
 
     print(response.statusCode == 200 ? 'Status: OK' : response.body.toString());
     if(response.statusCode == 200){
-      Get.snackbar('Success', 'Order Placed');
+      // Get.snackbar('Success', 'Order Placed');
       myDispose();
     }else{
       print(response.body);

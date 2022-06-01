@@ -1,69 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:laundry_app_ui/models/order.dart';
-import 'package:laundry_app_ui/ui/single_order.dart';
-import 'package:laundry_app_ui/utils/helper.dart';
 
-class OrderCard extends StatelessWidget {
-  final Order? order;
-
-  OrderCard({this.order});
-
-  // For formatting date
-  final DateFormat formatter = DateFormat("yyyy MM dd");
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Get.to(SingleOrder());
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Color.fromRGBO(220, 233, 245, 1),
-          ),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            getOrderIconWidget(order!.status!),
-            SizedBox(
-              width: 25.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    getOrderStatusText(order!.status!),
-                    style: TextStyle(
-                      color: Color.fromRGBO(19, 22, 33, 1),
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  textRow("Placed On", formatter.format(order!.placedDate!)),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  textRow("Delivery On", formatter.format(order!.arrivalDate!))
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 Widget textRow(String textOne, String textTwo) {
   return Wrap(
@@ -89,9 +26,9 @@ Widget textRow(String textOne, String textTwo) {
   );
 }
 
-Widget getOrderIconWidget(OrderStatus status) {
+Widget getOrderIconWidget(int status) {
   switch (status) {
-    case OrderStatus.PICKING_UP:
+    case 0:
       return Container(
         width: 37,
         height: 37,
@@ -104,7 +41,7 @@ Widget getOrderIconWidget(OrderStatus status) {
           color: Color.fromRGBO(221, 40, 81, 1),
         ),
       );
-    case OrderStatus.DELIVERING:
+    case 1:
       return Container(
         width: 37,
         height: 37.0,
@@ -133,13 +70,4 @@ Widget getOrderIconWidget(OrderStatus status) {
   }
 }
 
-String getOrderStatusText(OrderStatus status) {
-  switch (status) {
-    case OrderStatus.DELIVERING:
-      return "Delivering Order";
-    case OrderStatus.PICKING_UP:
-      return "Picking Up Order";
-    default:
-      return "";
-  }
-}
+

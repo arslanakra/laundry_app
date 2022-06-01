@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +12,11 @@ import '../utils/api_paths.dart';
 
 class AuthController extends GetxController{
 
-  String success = '',isRegistered='';
+  String success = '',isRegistered='',address='';
+  Position? currentPosition;
+  final Geolocator geoLocator = Geolocator();
+  LocationPermission? permission;
+  List<Placemark>? placemark;
   var status;
     TextEditingController emailController = TextEditingController()
                           ,regEmailController = TextEditingController()
@@ -34,7 +40,6 @@ class AuthController extends GetxController{
 
     if(response.statusCode == 201) {
       print(response.body);
-      Get.snackbar('Success', 'User Logged In Successfully', snackPosition: SnackPosition.BOTTOM);
       return loginModelFromJson(response.body);
     }else if(response.statusCode == 404){
       Get.snackbar('Error', 'Not Found', snackPosition: SnackPosition.BOTTOM);
@@ -61,7 +66,24 @@ class AuthController extends GetxController{
     update();
   }
 
+  getLocation() async {
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        // Permissions are denied forever, handle appropriately.
+        return;
+      }
+    }
+    Position position = await Geolocator.getCurrentPosition();
+    currentPosition = position;
 
+    placemark = await placemarkFromCoordinates(currentPosition!.latitude,currentPosition!.longitude);
+
+    print(placemark);
+    update();
+
+  }
 
 
 }

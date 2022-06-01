@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
+import 'package:laundry_app_ui/models/GetOrderModel.dart';
 import 'package:laundry_app_ui/utils/constants.dart';
 
 class SingleOrder extends StatefulWidget {
+  String num='',total='';
+  List<OrderItems>? items;
+   SingleOrder({Key? key,required this.num,required this.items,required this.total}) : super(key: key);
   @override
   _SingleOrderState createState() => _SingleOrderState();
 }
@@ -58,7 +62,7 @@ class _SingleOrderState extends State<SingleOrder> {
                                     ),
                           ),
                           TextSpan(
-                            text: "Order #521",
+                            text: "Order #${widget.num}",
                             style:
                                 Theme.of(context).textTheme.headline6!.copyWith(
                                       color: Colors.white,
@@ -97,93 +101,25 @@ class _SingleOrderState extends State<SingleOrder> {
                           SizedBox(
                             height: 6.0,
                           ),
-                          Text(
-                            "WASHING AND FOLDING",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromRGBO(143, 148, 162, 1),
-                            ),
-                          ),
+
                           SizedBox(
                             height: 10.0,
                           ),
-                          getItemRow("3", "T-shirts (man)", "\$30.00"),
-                          getItemRow("2", "T-shirts (man)", "\$40.00"),
-                          getItemRow("4", "Pants (man)", "\$80.00"),
-                          getItemRow("1", "Jeans (man)", "\$20.00"),
+                          getItemRow('Items','Quantity'),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          ListView.builder(
+                              itemCount: widget.items!.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext ctx,int index){
+                            return   getItemRow("${widget.items![index].catName}", "${widget.items![index].qty}");
+                          }),
+
                           SizedBox(
                             height: 30.0,
                           ),
-                          Text(
-                            "IRONING",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromRGBO(143, 148, 162, 1),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          getItemRow("3", "T-shirt (woman)", "\$30.00"),
-                          Divider(),
-                          getSubtotalRow("Subtotal", "\$200.00"),
-                          getSubtotalRow("Delivery", "\$225.00"),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          getTotalRow("Total", "\$225.00"),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            "Your clothes are now washing.",
-                            style:
-                                Theme.of(context).textTheme.headline6!.copyWith(
-                                      color: Color.fromRGBO(74, 77, 84, 1),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Estimated Delivery\n",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(143, 148, 162, 1),
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "24 January 2021",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(74, 77, 84, 1),
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/images/washlogo.png",
-                              ),
-                            ],
-                          )
+                          getTotalRow("Total", "Rs.${widget.total}"),
                         ],
                       ),
                     ),
@@ -252,7 +188,7 @@ Widget getSubtotalRow(String title, String price) {
   );
 }
 
-Widget getItemRow(String count, String item, String price) {
+Widget getItemRow(String count, String item) {
   return Padding(
     padding: EdgeInsets.only(bottom: 8.0),
     child: Row(
@@ -265,22 +201,21 @@ Widget getItemRow(String count, String item, String price) {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Expanded(
-          child: Text(
-            " x $item",
-            style: TextStyle(
-              color: Color.fromRGBO(143, 148, 162, 1),
-              fontSize: 15.0,
-            ),
-          ),
-        ),
+        Spacer(),
         Text(
-          price,
+          "$item",
           style: TextStyle(
-            color: Color.fromRGBO(74, 77, 84, 1),
+            color: Color.fromRGBO(143, 148, 162, 1),
             fontSize: 15.0,
           ),
-        )
+        ),
+        // Text(
+        //   price,
+        //   style: TextStyle(
+        //     color: Color.fromRGBO(74, 77, 84, 1),
+        //     fontSize: 15.0,
+        //   ),
+        // )
       ],
     ),
   );
