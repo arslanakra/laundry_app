@@ -80,7 +80,9 @@ class AuthController extends GetxController{
 
     placemark = await placemarkFromCoordinates(currentPosition!.latitude,currentPosition!.longitude);
 
-    print(placemark);
+
+    address = '${placemark!.first.name},${placemark!.first.subThoroughfare} ${placemark![2].subLocality}, ${placemark![3].locality},${placemark![4].country}';
+
     update();
 
   }
