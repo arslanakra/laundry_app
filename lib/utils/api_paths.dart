@@ -5,4 +5,8 @@ class ApiPaths{
   static String cat = 'categories';
   static String order = 'orders-save';
   static String getOrder = 'getorder/';
+  static String cancel = 'ordercancel/';
+
+
+
 }

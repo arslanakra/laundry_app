@@ -25,6 +25,7 @@ class OrderController extends GetxController{
         return;
       }
     }
+
     Position position = await Geolocator.getCurrentPosition();
       currentPosition = position;
       update();

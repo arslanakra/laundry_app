@@ -36,8 +36,6 @@ class AuthController extends GetxController{
 
     final response = await http
         .post(Uri.parse(ApiPaths.baseURL + ApiPaths.login), body: body);
-
-
     if(response.statusCode == 201) {
       print(response.body);
       return loginModelFromJson(response.body);

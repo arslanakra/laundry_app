@@ -68,7 +68,7 @@ class Data {
   String? total;
   double? lat;
   double? lng;
-  int? status;
+  dynamic status;
   String? createdAt;
   String? updatedAt;
   List<OrderItems>? orderItems;

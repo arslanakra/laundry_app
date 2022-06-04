@@ -1,9 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:laundry_app_ui/api/auth_controller.dart';
 import 'package:laundry_app_ui/models/LoginModel.dart';
+import 'package:laundry_app_ui/resources/singletonPattern/CancelOrderBloc.dart';
 import 'package:laundry_app_ui/resources/singletonPattern/GetOrderBloc.dart';
 import 'package:laundry_app_ui/ui/single_order.dart';
 import 'package:laundry_app_ui/utils/constants.dart';
@@ -12,6 +14,7 @@ import 'package:laundry_app_ui/widgets/location_slider.dart';
 import '../models/GetOrderModel.dart';
 import '../resources/singletonPattern/loginBloc.dart';
 import '../widgets/order_card.dart';
+import 'navigationScreen.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -99,7 +102,27 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                 ),
+                                Spacer(),
+                                InkWell(
+                                    onTap: ()async{
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (dialogContext) {
+                                            return Center(
+                                                child: SpinKitFoldingCube(
+                                                  color: Constants.primaryColor,
+                                                  size: 50,
+                                                ));
+                                          });
+                                      await getOrderBloc.getOrder(loginModel.id!);
+                                      Navigator.of(context).pop();
+                                      Get.offAll(()=>NavigationScreen());
 
+
+                                    },
+
+                                    child: SizedBox(child: Icon(Icons.refresh,color: Colors.white,)))
                               ],
                             )
                           ],
@@ -221,7 +244,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        getOrderIconWidget(orderModel.data![index].status!),
+                                        // getOrderIconWidget(orderModel.data![index].status!),
                                         SizedBox(
                                           width: 25.0,
                                         ),
@@ -230,7 +253,11 @@ class _DashboardState extends State<Dashboard> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                orderModel.data![index].status == 0 ? 'Order Placed' : 'Delivering',
+                                                orderModel.data![index].status =='0' ? 'Order Placed' :
+                                                orderModel.data![index].status=='1' ? 'Rider is coming to pick clothes':
+                                                orderModel.data![index].status=='2' ? 'Clothes are being washed and dry cleaned':
+                                                orderModel.data![index].status=='3' ? 'Rider is on its way to deliver':
+                                                'Clothes Delivered',
                                                 style: TextStyle(
                                                   color: Color.fromRGBO(19, 22, 33, 1),
                                                   fontSize: 16.0,
@@ -239,7 +266,39 @@ class _DashboardState extends State<Dashboard> {
                                               SizedBox(
                                                 height: 5.0,
                                               ),
-                                              textRow("Order No", '${orderModel.data![index].id}'),
+                                              Row(
+                                                children: [
+                                                  textRow("Order No", '${orderModel.data![index].id}'),
+                                                  Spacer(),
+                                                  orderModel.data![index].status =='0' ?
+                                                  InkWell(
+                                                      onTap: ()async{
+                                                        showDialog(
+                                                            barrierDismissible: false,
+                                                            context: context,
+                                                            builder: (dialogContext) {
+                                                              return Center(
+                                                                  child: SpinKitFoldingCube(
+                                                                    color: Constants.primaryColor,
+                                                                    size: 50,
+                                                                  ));
+                                                            });
+                                                        await cancelOrderBloc.cancelOrder(orderModel.data![index].id!);
+                                                        await getOrderBloc.getOrder(loginModel.id!);
+                                                        Navigator.of(context).pop();
+                                                        Get.snackbar('Message','Order Cancelled');
+                                                        Get.offAll(()=>NavigationScreen());
+
+                                                      },
+                                                      child: Container(
+                                                          color: Colors.red,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(4.0),
+                                                            child: Text("Cancel Order",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
+                                                          )))
+                                                      : SizedBox(),
+                                                ],
+                                              ),
                                               SizedBox(
                                                 height: 5.0,
                                               ),
